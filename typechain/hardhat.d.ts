@@ -29,14 +29,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Upgradeable__factory>;
     getContractFactory(
-      name: "DelegationMock",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.DelegationMock__factory>;
-    getContractFactory(
-      name: "FTSOManagerMock",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FTSOManagerMock__factory>;
-    getContractFactory(
       name: "Delegation",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Delegation__factory>;
@@ -73,25 +65,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTPMRedeemer__factory>;
     getContractFactory(
-      name: "Delegation",
+      name: "ITokenContract1155",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Delegation__factory>;
+    ): Promise<Contracts.ITokenContract1155__factory>;
     getContractFactory(
-      name: "FTSOManager",
+      name: "NFTP",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FTSOManager__factory>;
+    ): Promise<Contracts.NFTP__factory>;
     getContractFactory(
-      name: "TestReader",
+      name: "NFTPMRedeemer",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.TestReader__factory>;
-    getContractFactory(
-      name: "Token",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Token__factory>;
-    getContractFactory(
-      name: "TokenHack",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.TokenHack__factory>;
+    ): Promise<Contracts.NFTPMRedeemer__factory>;
 
     // default types
     getContractFactory(

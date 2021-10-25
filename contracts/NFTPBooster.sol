@@ -18,7 +18,7 @@ interface FTSOManager {
   function getCurrentRewardEpoch() external view returns (uint256);
 }
 
-contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
+contract NFTPBooster is OwnableUpgradeable {
   uint256 public SGBDelegatedDenominator;
   uint256 public tokenRewardPerVPBPerDenominator;
   uint256 public vpBlocksToClaim;
