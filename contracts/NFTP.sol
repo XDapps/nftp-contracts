@@ -33,13 +33,18 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
   address public ftsoManagerAddress;  
   //address that is allowed to burn tokens when spent
   address public burnApprover;
+  //address that is allowed to mint tokens with a boost
+  address public boostMinter;
 
   bool public isTransferable;
 
   //Events
   event BurnApproverSet(address newBurnApprover);
+  event BoostMinterSet(address newBoostMinter);
   event NFTPointsBurned(address indexed burningAddress, uint256 amountBurned);
   event NFTPsClaimed(address indexed claimingAddress, uint256 rewardsClaimed);
+  event NFTPsClaimedWithBoost(address indexed claimingAddress, uint256 basisPointsBoost, uint256 periodBoost, uint256 rewardsClaimed);
+  event DirectBoostMint(address indexed receivingAddress, uint256 mintedAmount);
 
   //initializer for upgradable
   function initializeContract(string memory _name, string memory _symbol) public {
@@ -50,7 +55,7 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
     ftsoManagerAddress = 0xbfA12e4E1411B62EdA8B035d71735667422A6A9e;
     SGBDelegatedDenominator = 1000;
     tokenRewardPerVPBPerDenominator = 7;
-    vpBlocksToClaim = 3; //if not claimed after 3 voting power blocks
+    vpBlocksToClaim = 4; //if not claimed after 4 voting power blocks
 	isTransferable = false; //tokens are not transferable on start
   }
 
@@ -83,6 +88,11 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
   function setTransferable(bool _isTransferable) external onlyOwner {
 	  isTransferable = _isTransferable;
   }	
+  
+  function setBoostMinterAddress(address _newboostMinter) external onlyOwner {
+	  boostMinter = _newboostMinter;
+	  emit BoostMinterSet(_newboostMinter);
+  }
   
   function setBurnApproverAddress(address _newBurnApprover) external onlyOwner {
 	  burnApprover = _newBurnApprover;
@@ -130,7 +140,7 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
     return (currentDelegated * tokenRewardPerVPBPerDenominator) / SGBDelegatedDenominator; //in wei
   }
 
-  function rewardClaimableForBlock(address _user, uint256 _vpBlock) public view returns (uint256) {
+  function rewardClaimableForBlock(address _user, uint256 _vpBlock, uint256 _tokenRewardPerVPBPerDenominator) public view returns (uint256) {
     //if the user already claimed these rewards there's no use to calculate, claimable reward for block is 0
     if (vpBlockClaimed[_user][_vpBlock]) {
       return 0;
@@ -140,11 +150,11 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
     uint256 delegatedAtBlock = delegationContract.votePowerFromToAt(_user, delegatedTo, _vpBlock);
     //This returns raw tokens delegated in wei
 
-    return (delegatedAtBlock * tokenRewardPerVPBPerDenominator) / SGBDelegatedDenominator; //claimable reward in wei, 1e18 is 1 bNFT token
+    return (delegatedAtBlock * _tokenRewardPerVPBPerDenominator) / SGBDelegatedDenominator; //claimable reward in wei, 1e18 is 1 bNFT token
   }
 
   //calculate independently for each voting block because delegated amount/earn rate will be different
-  function calculateClaimableRewards(address _user) external view returns (uint256) {
+  function calculateClaimableRewards(address _user, uint256 _tokenRewardPerVPBPerDenominator) public view returns (uint256) {
   	FTSOManager ftsoManagerContract = FTSOManager(ftsoManagerAddress);
     uint256 blocksToClaim;
     uint256 claimableReward;
@@ -166,17 +176,21 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
 
     for (uint256 i = 0; i < blocksToClaim; i++) {
       uint256 blockToClaim = ftsoManagerContract.getRewardEpochVotePowerBlock(numEpochs - 1 - i);
-      claimableReward += rewardClaimableForBlock(_user, blockToClaim);
+      claimableReward += rewardClaimableForBlock(_user, blockToClaim, _tokenRewardPerVPBPerDenominator);
     }
 
     return claimableReward;
   }
 
   function claimRewards() external {
+		_claimRewards(msg.sender, tokenRewardPerVPBPerDenominator);
+  }
+
+function _claimRewards(address _claimingAddress, uint256 _tokenRewardPerVPBPerDenominator) internal {
   	FTSOManager ftsoManagerContract = FTSOManager(ftsoManagerAddress);
     uint256 numEpochs = ftsoManagerContract.getCurrentRewardEpoch() + 1;
     uint256 mostCurrentBlock = ftsoManagerContract.getRewardEpochVotePowerBlock(numEpochs - 1);
-    require(!vpBlockClaimed[msg.sender][mostCurrentBlock], "Rewards Already Claimed For Current Voting Power Block");
+    require(!vpBlockClaimed[_claimingAddress][mostCurrentBlock], "Rewards Already Claimed For Current Voting Power Block");
 
     uint256 claimableRewards;
     uint256[] memory blocksToClaim = new uint256[](vpBlocksToClaim);
@@ -185,7 +199,7 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
     if (numEpochs < vpBlocksToClaim) {
       for (uint256 i = 0; i < numEpochs; i++) {
         uint256 blockToClaim = ftsoManagerContract.getRewardEpochVotePowerBlock(numEpochs - 1 - i);
-        if (!vpBlockClaimed[msg.sender][blockToClaim]) {
+        if (!vpBlockClaimed[_claimingAddress][blockToClaim]) {
           blocksToClaim[index] = blockToClaim;
           index++;
         }
@@ -193,20 +207,39 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
     } else {
       for (uint256 i = 0; i < vpBlocksToClaim; i++) {
         uint256 blockToClaim = ftsoManagerContract.getRewardEpochVotePowerBlock(numEpochs - 1 - i);
-        if (!vpBlockClaimed[msg.sender][blockToClaim]) {
+        if (!vpBlockClaimed[_claimingAddress][blockToClaim]) {
           blocksToClaim[index] = blockToClaim;
           index++;
         }
       }
     }
-
     //don't send a call for the unused portion of the array, only go through index
     for (uint256 i = 0; i < index; i++) {
-      claimableRewards += rewardClaimableForBlock(msg.sender, blocksToClaim[i]);
-      vpBlockClaimed[msg.sender][blocksToClaim[i]] = true;
+      claimableRewards += rewardClaimableForBlock(_claimingAddress, blocksToClaim[i], _tokenRewardPerVPBPerDenominator);
+      vpBlockClaimed[_claimingAddress][blocksToClaim[i]] = true;
     }
     //need to mint after calculating claimable
-    _mint(msg.sender, claimableRewards);
-	emit NFTPsClaimed(msg.sender, claimableRewards);
+    _mint(_claimingAddress, claimableRewards);
+	emit NFTPsClaimed(_claimingAddress, claimableRewards);
   }
+
+
+ // Claim Points using boostContract- only boostMinterAddress can boost mint
+  function claimRewardsWithBoost(address claimingAddress, uint256 basisPointsIncrease, uint256 _additionalPointsPerday) external {
+	require(msg.sender == boostMinter, 'Boosted rewards must be called through the boost contract');
+	uint256 totalPointsPerDay = _additionalPointsPerday + tokenRewardPerVPBPerDenominator;
+	uint256 availableRewards = calculateClaimableRewards(claimingAddress, totalPointsPerDay);
+	_claimRewards(claimingAddress, totalPointsPerDay);
+	uint256 bonusAmount = (availableRewards * basisPointsIncrease)/10000;
+    _mint(claimingAddress, bonusAmount);
+	emit NFTPsClaimedWithBoost(claimingAddress, basisPointsIncrease, _additionalPointsPerday, bonusAmount + availableRewards);
+  }
+
+ // Boost Minter Can Directly Assign Points - only boostMinterAddress can boost mint
+  function boostMintDirectly(address _receivingAddress, uint256 _amountToMint) external {
+	require(msg.sender == boostMinter, 'Direct Mint must be called through the boost contract');
+    _mint(_receivingAddress, _amountToMint);
+	emit DirectBoostMint(_receivingAddress, _amountToMint);
+  }
+
 }
