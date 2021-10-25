@@ -45,6 +45,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.INFTP__factory>;
     getContractFactory(
+      name: "NFTPBooster",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.NFTPBooster__factory>;
+    getContractFactory(
+      name: "INFTP",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.INFTP__factory>;
+    getContractFactory(
       name: "ITokenContract1155",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ITokenContract1155__factory>;

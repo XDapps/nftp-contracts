@@ -21,19 +21,25 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface INFTPInterface extends ethers.utils.Interface {
   functions: {
-    "balanceOf(address)": FunctionFragment;
-    "redeemPoints(address,uint256)": FunctionFragment;
+    "boostMintDirectly(address,uint256)": FunctionFragment;
+    "claimRewardsWithBoost(address,uint256,uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "redeemPoints",
+    functionFragment: "boostMintDirectly",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "claimRewardsWithBoost",
+    values: [string, BigNumberish, BigNumberish]
+  ): string;
 
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "redeemPoints",
+    functionFragment: "boostMintDirectly",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimRewardsWithBoost",
     data: BytesLike
   ): Result;
 
@@ -84,29 +90,44 @@ export class INFTP extends BaseContract {
   interface: INFTPInterface;
 
   functions: {
-    balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+    boostMintDirectly(
+      _receivingAddress: string,
+      _amountToMint: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    redeemPoints(
-      _accountToBurn: string,
-      _amountToBurn: BigNumberish,
+    claimRewardsWithBoost(
+      claimingAddress: string,
+      basisPointsIncrease: BigNumberish,
+      _additionalPointsPerday: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+  boostMintDirectly(
+    _receivingAddress: string,
+    _amountToMint: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  redeemPoints(
-    _accountToBurn: string,
-    _amountToBurn: BigNumberish,
+  claimRewardsWithBoost(
+    claimingAddress: string,
+    basisPointsIncrease: BigNumberish,
+    _additionalPointsPerday: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+    boostMintDirectly(
+      _receivingAddress: string,
+      _amountToMint: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    redeemPoints(
-      _accountToBurn: string,
-      _amountToBurn: BigNumberish,
+    claimRewardsWithBoost(
+      claimingAddress: string,
+      basisPointsIncrease: BigNumberish,
+      _additionalPointsPerday: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -114,24 +135,31 @@ export class INFTP extends BaseContract {
   filters: {};
 
   estimateGas: {
-    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+    boostMintDirectly(
+      _receivingAddress: string,
+      _amountToMint: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    redeemPoints(
-      _accountToBurn: string,
-      _amountToBurn: BigNumberish,
+    claimRewardsWithBoost(
+      claimingAddress: string,
+      basisPointsIncrease: BigNumberish,
+      _additionalPointsPerday: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    balanceOf(
-      account: string,
-      overrides?: CallOverrides
+    boostMintDirectly(
+      _receivingAddress: string,
+      _amountToMint: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    redeemPoints(
-      _accountToBurn: string,
-      _amountToBurn: BigNumberish,
+    claimRewardsWithBoost(
+      claimingAddress: string,
+      basisPointsIncrease: BigNumberish,
+      _additionalPointsPerday: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
