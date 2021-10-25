@@ -41,41 +41,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTP__factory>;
     getContractFactory(
-      name: "Delegation",
+      name: "INFTP",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Delegation__factory>;
-    getContractFactory(
-      name: "FTSOManager",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FTSOManager__factory>;
-    getContractFactory(
-      name: "NFTP",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NFTP__factory>;
+    ): Promise<Contracts.INFTP__factory>;
     getContractFactory(
       name: "ITokenContract1155",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ITokenContract1155__factory>;
     getContractFactory(
-      name: "NFTP",
+      name: "ITokenContract721",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NFTP__factory>;
+    ): Promise<Contracts.ITokenContract721__factory>;
     getContractFactory(
-      name: "NFTPMRedeemer",
+      name: "NFTPRedeemer",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NFTPMRedeemer__factory>;
-    getContractFactory(
-      name: "ITokenContract1155",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ITokenContract1155__factory>;
-    getContractFactory(
-      name: "NFTP",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NFTP__factory>;
-    getContractFactory(
-      name: "NFTPMRedeemer",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NFTPMRedeemer__factory>;
+    ): Promise<Contracts.NFTPRedeemer__factory>;
 
     // default types
     getContractFactory(

@@ -2,13 +2,13 @@ import { ethers, upgrades } from 'hardhat';
 import { Contract, ContractFactory } from 'ethers';
 
 async function main(): Promise<void> {
-  const NFTPContractFactory: ContractFactory = await ethers.getContractFactory('NFTP');
+  const NFTPRedeemerContractFactory: ContractFactory = await ethers.getContractFactory('NFTPRedeemer');
 
-  const deployedAddress = "0x455eF3F5fcB557575F12449b3fc1C1f4dc9e4f3e"
-  const upgraded = await upgrades.upgradeProxy(deployedAddress, NFTPContractFactory);
+  const deployedAddress = "0x802ff1CAb64CD2e863b48DD453450A86d09D89a7"
+  const upgraded = await upgrades.upgradeProxy(deployedAddress, NFTPRedeemerContractFactory);
   console.log('upgraded ', upgraded);
 
- 
+
 }
 main()
   .then(() => process.exit(0))

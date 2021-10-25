@@ -7,7 +7,7 @@ export const NFTP_ABI = [
   "function rewardClaimableForBlock(address _user, uint256 _vpBlock) public view returns (uint256)"
 ];
 
-const nftpAddress = '0x74158DAAa7600Fb5b1479607bEcc3Fcc6C49c1a3';
+const nftpAddress = '0x455eF3F5fcB557575F12449b3fc1C1f4dc9e4f3e';
 const userToCheck = '0x13dD6daF273E3844cE310D6BcA435437874f96Dc';
 const userToCheck2 = '0x6ac44de5fdce0aa8087b7d66e8f0d0b54fe632fb';
 

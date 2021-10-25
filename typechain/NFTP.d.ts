@@ -25,15 +25,35 @@ interface NFTPInterface extends ethers.utils.Interface {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "boostMintDirectly(address,uint256)": FunctionFragment;
+    "boostMinter(address)": FunctionFragment;
+    "calculateClaimableRewards(address,uint256)": FunctionFragment;
+    "claimRewards()": FunctionFragment;
+    "claimRewardsWithBoost(address,uint256,uint256)": FunctionFragment;
+    "currentRewardRate(address)": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
     "delegatedTo()": FunctionFragment;
     "delegationAddress()": FunctionFragment;
+    "ftsoManagerAddress()": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
     "initializeContract(string,string)": FunctionFragment;
+    "isTransferable()": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
+    "redeemPoints(address,uint256)": FunctionFragment;
+    "redeemer()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "rewardClaimableForBlock(address,uint256,uint256)": FunctionFragment;
+    "setBlocksToClaim(uint8)": FunctionFragment;
+    "setBoostMinterAddress(address,bool)": FunctionFragment;
+    "setDelegatedTo(address)": FunctionFragment;
+    "setDelegationAddress(address)": FunctionFragment;
+    "setFTSOManagerAddress(address)": FunctionFragment;
+    "setRedeemerAddress(address)": FunctionFragment;
+    "setRewardDenominator(uint256)": FunctionFragment;
+    "setTokenRewardPerDenominator(uint256)": FunctionFragment;
+    "setTransferable(bool)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenRewardPerVPBPerDenominator()": FunctionFragment;
     "totalSupply()": FunctionFragment;
@@ -57,6 +77,27 @@ interface NFTPInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "boostMintDirectly",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "boostMinter", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "calculateClaimableRewards",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimRewards",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimRewardsWithBoost",
+    values: [string, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentRewardRate",
+    values: [string]
+  ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decreaseAllowance",
@@ -71,6 +112,10 @@ interface NFTPInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "ftsoManagerAddress",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
@@ -78,11 +123,60 @@ interface NFTPInterface extends ethers.utils.Interface {
     functionFragment: "initializeContract",
     values: [string, string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "isTransferable",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "redeemPoints",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "redeemer", values?: undefined): string;
+  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "rewardClaimableForBlock",
+    values: [string, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setBlocksToClaim",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setBoostMinterAddress",
+    values: [string, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setDelegatedTo",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setDelegationAddress",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setFTSOManagerAddress",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setRedeemerAddress",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setRewardDenominator",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTokenRewardPerDenominator",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTransferable",
+    values: [boolean]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
@@ -121,6 +215,30 @@ interface NFTPInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "boostMintDirectly",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "boostMinter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "calculateClaimableRewards",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimRewards",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimRewardsWithBoost",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentRewardRate",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decreaseAllowance",
@@ -135,6 +253,10 @@ interface NFTPInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "ftsoManagerAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
@@ -142,10 +264,59 @@ interface NFTPInterface extends ethers.utils.Interface {
     functionFragment: "initializeContract",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "isTransferable",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "redeemPoints",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "redeemer", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "rewardClaimableForBlock",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setBlocksToClaim",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setBoostMinterAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setDelegatedTo",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setDelegationAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setFTSOManagerAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setRedeemerAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setRewardDenominator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTokenRewardPerDenominator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTransferable",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
@@ -177,16 +348,24 @@ interface NFTPInterface extends ethers.utils.Interface {
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "BoostMinterSet(address)": EventFragment;
-    "BurnApproverSet(address)": EventFragment;
+    "BoostMinterSet(address,bool)": EventFragment;
+    "DirectBoostMint(address,uint256)": EventFragment;
+    "NFTPointsRedeemed(address,uint256)": EventFragment;
+    "NFTPsClaimed(address,uint256)": EventFragment;
+    "NFTPsClaimedWithBoost(address,uint256,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "RedeemerSet(address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BoostMinterSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BurnApproverSet"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DirectBoostMint"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NFTPointsRedeemed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NFTPsClaimed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NFTPsClaimedWithBoost"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RedeemerSet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -250,6 +429,36 @@ export class NFTP extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    boostMintDirectly(
+      _receivingAddress: string,
+      _amountToMint: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    boostMinter(arg0: string, overrides?: CallOverrides): Promise<[boolean]>;
+
+    calculateClaimableRewards(
+      _user: string,
+      _tokenRewardPerVPBPerDenominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    claimRewards(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    claimRewardsWithBoost(
+      claimingAddress: string,
+      basisPointsIncrease: BigNumberish,
+      _additionalPointsPerday: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    currentRewardRate(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
     decreaseAllowance(
@@ -261,6 +470,8 @@ export class NFTP extends BaseContract {
     delegatedTo(overrides?: CallOverrides): Promise<[string]>;
 
     delegationAddress(overrides?: CallOverrides): Promise<[string]>;
+
+    ftsoManagerAddress(overrides?: CallOverrides): Promise<[string]>;
 
     increaseAllowance(
       spender: string,
@@ -274,11 +485,74 @@ export class NFTP extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    isTransferable(overrides?: CallOverrides): Promise<[boolean]>;
+
     name(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
+    redeemPoints(
+      _accountToBurn: string,
+      _amountToBurn: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    redeemer(overrides?: CallOverrides): Promise<[string]>;
+
     renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    rewardClaimableForBlock(
+      _user: string,
+      _vpBlock: BigNumberish,
+      _tokenRewardPerVPBPerDenominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    setBlocksToClaim(
+      _blocksToClaim: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setBoostMinterAddress(
+      _addressToSet: string,
+      _canBoost: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setDelegatedTo(
+      _delegatedTo: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setDelegationAddress(
+      _delegationAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setFTSOManagerAddress(
+      _FTSOManagerAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setRedeemerAddress(
+      _newRedeemer: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setRewardDenominator(
+      _denominator: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTokenRewardPerDenominator(
+      _tokenReward: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTransferable(
+      _isTransferable: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -333,6 +607,36 @@ export class NFTP extends BaseContract {
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+  boostMintDirectly(
+    _receivingAddress: string,
+    _amountToMint: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  boostMinter(arg0: string, overrides?: CallOverrides): Promise<boolean>;
+
+  calculateClaimableRewards(
+    _user: string,
+    _tokenRewardPerVPBPerDenominator: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  claimRewards(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  claimRewardsWithBoost(
+    claimingAddress: string,
+    basisPointsIncrease: BigNumberish,
+    _additionalPointsPerday: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  currentRewardRate(
+    _user: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   decimals(overrides?: CallOverrides): Promise<number>;
 
   decreaseAllowance(
@@ -344,6 +648,8 @@ export class NFTP extends BaseContract {
   delegatedTo(overrides?: CallOverrides): Promise<string>;
 
   delegationAddress(overrides?: CallOverrides): Promise<string>;
+
+  ftsoManagerAddress(overrides?: CallOverrides): Promise<string>;
 
   increaseAllowance(
     spender: string,
@@ -357,11 +663,74 @@ export class NFTP extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  isTransferable(overrides?: CallOverrides): Promise<boolean>;
+
   name(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
+  redeemPoints(
+    _accountToBurn: string,
+    _amountToBurn: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  redeemer(overrides?: CallOverrides): Promise<string>;
+
   renounceOwnership(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  rewardClaimableForBlock(
+    _user: string,
+    _vpBlock: BigNumberish,
+    _tokenRewardPerVPBPerDenominator: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  setBlocksToClaim(
+    _blocksToClaim: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setBoostMinterAddress(
+    _addressToSet: string,
+    _canBoost: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setDelegatedTo(
+    _delegatedTo: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setDelegationAddress(
+    _delegationAddress: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setFTSOManagerAddress(
+    _FTSOManagerAddress: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setRedeemerAddress(
+    _newRedeemer: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setRewardDenominator(
+    _denominator: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTokenRewardPerDenominator(
+    _tokenReward: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTransferable(
+    _isTransferable: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -416,6 +785,34 @@ export class NFTP extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    boostMintDirectly(
+      _receivingAddress: string,
+      _amountToMint: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    boostMinter(arg0: string, overrides?: CallOverrides): Promise<boolean>;
+
+    calculateClaimableRewards(
+      _user: string,
+      _tokenRewardPerVPBPerDenominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    claimRewards(overrides?: CallOverrides): Promise<void>;
+
+    claimRewardsWithBoost(
+      claimingAddress: string,
+      basisPointsIncrease: BigNumberish,
+      _additionalPointsPerday: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    currentRewardRate(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     decimals(overrides?: CallOverrides): Promise<number>;
 
     decreaseAllowance(
@@ -427,6 +824,8 @@ export class NFTP extends BaseContract {
     delegatedTo(overrides?: CallOverrides): Promise<string>;
 
     delegationAddress(overrides?: CallOverrides): Promise<string>;
+
+    ftsoManagerAddress(overrides?: CallOverrides): Promise<string>;
 
     increaseAllowance(
       spender: string,
@@ -440,11 +839,74 @@ export class NFTP extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    isTransferable(overrides?: CallOverrides): Promise<boolean>;
+
     name(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
+    redeemPoints(
+      _accountToBurn: string,
+      _amountToBurn: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    redeemer(overrides?: CallOverrides): Promise<string>;
+
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    rewardClaimableForBlock(
+      _user: string,
+      _vpBlock: BigNumberish,
+      _tokenRewardPerVPBPerDenominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setBlocksToClaim(
+      _blocksToClaim: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setBoostMinterAddress(
+      _addressToSet: string,
+      _canBoost: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setDelegatedTo(
+      _delegatedTo: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setDelegationAddress(
+      _delegationAddress: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setFTSOManagerAddress(
+      _FTSOManagerAddress: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setRedeemerAddress(
+      _newRedeemer: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setRewardDenominator(
+      _denominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTokenRewardPerDenominator(
+      _tokenReward: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTransferable(
+      _isTransferable: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
@@ -492,12 +954,51 @@ export class NFTP extends BaseContract {
     >;
 
     BoostMinterSet(
-      newBoostMinter?: null
-    ): TypedEventFilter<[string], { newBoostMinter: string }>;
+      newBoostMinter?: null,
+      canBoostMint?: null
+    ): TypedEventFilter<
+      [string, boolean],
+      { newBoostMinter: string; canBoostMint: boolean }
+    >;
 
-    BurnApproverSet(
-      newBurnApprover?: null
-    ): TypedEventFilter<[string], { newBurnApprover: string }>;
+    DirectBoostMint(
+      receivingAddress?: string | null,
+      mintedAmount?: null
+    ): TypedEventFilter<
+      [string, BigNumber],
+      { receivingAddress: string; mintedAmount: BigNumber }
+    >;
+
+    NFTPointsRedeemed(
+      redeemingAddress?: string | null,
+      amountRedeemed?: null
+    ): TypedEventFilter<
+      [string, BigNumber],
+      { redeemingAddress: string; amountRedeemed: BigNumber }
+    >;
+
+    NFTPsClaimed(
+      claimingAddress?: string | null,
+      rewardsClaimed?: null
+    ): TypedEventFilter<
+      [string, BigNumber],
+      { claimingAddress: string; rewardsClaimed: BigNumber }
+    >;
+
+    NFTPsClaimedWithBoost(
+      claimingAddress?: string | null,
+      basisPointsBoost?: null,
+      periodBoost?: null,
+      rewardsClaimed?: null
+    ): TypedEventFilter<
+      [string, BigNumber, BigNumber, BigNumber],
+      {
+        claimingAddress: string;
+        basisPointsBoost: BigNumber;
+        periodBoost: BigNumber;
+        rewardsClaimed: BigNumber;
+      }
+    >;
 
     OwnershipTransferred(
       previousOwner?: string | null,
@@ -506,6 +1007,10 @@ export class NFTP extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
+
+    RedeemerSet(
+      newRedeemer?: null
+    ): TypedEventFilter<[string], { newRedeemer: string }>;
 
     Transfer(
       from?: string | null,
@@ -534,6 +1039,36 @@ export class NFTP extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    boostMintDirectly(
+      _receivingAddress: string,
+      _amountToMint: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    boostMinter(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    calculateClaimableRewards(
+      _user: string,
+      _tokenRewardPerVPBPerDenominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    claimRewards(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    claimRewardsWithBoost(
+      claimingAddress: string,
+      basisPointsIncrease: BigNumberish,
+      _additionalPointsPerday: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    currentRewardRate(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
     decreaseAllowance(
@@ -545,6 +1080,8 @@ export class NFTP extends BaseContract {
     delegatedTo(overrides?: CallOverrides): Promise<BigNumber>;
 
     delegationAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ftsoManagerAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     increaseAllowance(
       spender: string,
@@ -558,11 +1095,74 @@ export class NFTP extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    isTransferable(overrides?: CallOverrides): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    redeemPoints(
+      _accountToBurn: string,
+      _amountToBurn: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    redeemer(overrides?: CallOverrides): Promise<BigNumber>;
+
     renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    rewardClaimableForBlock(
+      _user: string,
+      _vpBlock: BigNumberish,
+      _tokenRewardPerVPBPerDenominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setBlocksToClaim(
+      _blocksToClaim: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setBoostMinterAddress(
+      _addressToSet: string,
+      _canBoost: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setDelegatedTo(
+      _delegatedTo: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setDelegationAddress(
+      _delegationAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setFTSOManagerAddress(
+      _FTSOManagerAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setRedeemerAddress(
+      _newRedeemer: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setRewardDenominator(
+      _denominator: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTokenRewardPerDenominator(
+      _tokenReward: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTransferable(
+      _isTransferable: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -623,6 +1223,39 @@ export class NFTP extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    boostMintDirectly(
+      _receivingAddress: string,
+      _amountToMint: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    boostMinter(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    calculateClaimableRewards(
+      _user: string,
+      _tokenRewardPerVPBPerDenominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    claimRewards(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    claimRewardsWithBoost(
+      claimingAddress: string,
+      basisPointsIncrease: BigNumberish,
+      _additionalPointsPerday: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    currentRewardRate(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decreaseAllowance(
@@ -634,6 +1267,10 @@ export class NFTP extends BaseContract {
     delegatedTo(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     delegationAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    ftsoManagerAddress(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     increaseAllowance(
       spender: string,
@@ -647,11 +1284,74 @@ export class NFTP extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    isTransferable(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    redeemPoints(
+      _accountToBurn: string,
+      _amountToBurn: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    redeemer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    rewardClaimableForBlock(
+      _user: string,
+      _vpBlock: BigNumberish,
+      _tokenRewardPerVPBPerDenominator: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setBlocksToClaim(
+      _blocksToClaim: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBoostMinterAddress(
+      _addressToSet: string,
+      _canBoost: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setDelegatedTo(
+      _delegatedTo: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setDelegationAddress(
+      _delegationAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setFTSOManagerAddress(
+      _FTSOManagerAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setRedeemerAddress(
+      _newRedeemer: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setRewardDenominator(
+      _denominator: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTokenRewardPerDenominator(
+      _tokenReward: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTransferable(
+      _isTransferable: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

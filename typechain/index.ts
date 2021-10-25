@@ -8,8 +8,10 @@ export type { IERC20Upgradeable } from "./IERC20Upgradeable";
 export type { Delegation } from "./Delegation";
 export type { FTSOManager } from "./FTSOManager";
 export type { NFTP } from "./NFTP";
+export type { INFTP } from "./INFTP";
 export type { ITokenContract1155 } from "./ITokenContract1155";
-export type { NFTPMRedeemer } from "./NFTPMRedeemer";
+export type { ITokenContract721 } from "./ITokenContract721";
+export type { NFTPRedeemer } from "./NFTPRedeemer";
 
 export { OwnableUpgradeable__factory } from "./factories/OwnableUpgradeable__factory";
 export { ERC20Upgradeable__factory } from "./factories/ERC20Upgradeable__factory";
@@ -18,5 +20,7 @@ export { IERC20Upgradeable__factory } from "./factories/IERC20Upgradeable__facto
 export { Delegation__factory } from "./factories/Delegation__factory";
 export { FTSOManager__factory } from "./factories/FTSOManager__factory";
 export { NFTP__factory } from "./factories/NFTP__factory";
+export { INFTP__factory } from "./factories/INFTP__factory";
 export { ITokenContract1155__factory } from "./factories/ITokenContract1155__factory";
-export { NFTPMRedeemer__factory } from "./factories/NFTPMRedeemer__factory";
+export { ITokenContract721__factory } from "./factories/ITokenContract721__factory";
+export { NFTPRedeemer__factory } from "./factories/NFTPRedeemer__factory";

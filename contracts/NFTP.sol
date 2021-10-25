@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.6;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
@@ -32,22 +32,23 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
   //address of FTSO Manager Contract
   address public ftsoManagerAddress;  
   //address that is allowed to burn tokens when spent
-  address public burnApprover;
+  address public redeemer;
   //If an external contract address is eligible to boost mint
   mapping(address => bool) public boostMinter;
 
   bool public isTransferable;
 
   //Events
-  event BurnApproverSet(address newBurnApprover);
+  event RedeemerSet(address newRedeemer);
   event BoostMinterSet(address newBoostMinter, bool canBoostMint);
-  event NFTPointsBurned(address indexed burningAddress, uint256 amountBurned);
+  event NFTPointsRedeemed(address indexed redeemingAddress, uint256 amountRedeemed);
   event NFTPsClaimed(address indexed claimingAddress, uint256 rewardsClaimed);
   event NFTPsClaimedWithBoost(address indexed claimingAddress, uint256 basisPointsBoost, uint256 periodBoost, uint256 rewardsClaimed);
   event DirectBoostMint(address indexed receivingAddress, uint256 mintedAmount);
 
   //initializer for upgradable
   function initializeContract(string memory _name, string memory _symbol) public {
+	__Ownable_init();
 	_name = _name;
 	_symbol = _symbol;
     delegationAddress = 0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED;
@@ -94,9 +95,9 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
 	  emit BoostMinterSet(_addressToSet, _canBoost);
   }
   
-  function setBurnApproverAddress(address _newBurnApprover) external onlyOwner {
-	  burnApprover = _newBurnApprover;
-	  emit BurnApproverSet(_newBurnApprover);
+  function setRedeemerAddress(address _newRedeemer) external onlyOwner {
+	  redeemer = _newRedeemer;
+	  emit RedeemerSet(_newRedeemer);
   }
 
 
@@ -125,10 +126,10 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
     }
 
 	//Burn Points when used - only burnApproverAddress can burn
-	function burnPoints(address _accountToBurn, uint256 _amountToBurn) external {
-		require(msg.sender == burnApprover);
+	function redeemPoints(address _accountToBurn, uint256 _amountToBurn) external {
+		require(msg.sender == redeemer);
 		_burn(_accountToBurn, _amountToBurn);
-		emit NFTPointsBurned(_accountToBurn, _amountToBurn);
+		emit NFTPointsRedeemed(_accountToBurn, _amountToBurn);
 	}
 
 
