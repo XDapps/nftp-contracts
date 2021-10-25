@@ -33,14 +33,14 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
   address public ftsoManagerAddress;  
   //address that is allowed to burn tokens when spent
   address public burnApprover;
-  //address that is allowed to mint tokens with a boost
-  address public boostMinter;
+  //If an external contract address is eligible to boost mint
+  mapping(address => bool) public boostMinter;
 
   bool public isTransferable;
 
   //Events
   event BurnApproverSet(address newBurnApprover);
-  event BoostMinterSet(address newBoostMinter);
+  event BoostMinterSet(address newBoostMinter, bool canBoostMint);
   event NFTPointsBurned(address indexed burningAddress, uint256 amountBurned);
   event NFTPsClaimed(address indexed claimingAddress, uint256 rewardsClaimed);
   event NFTPsClaimedWithBoost(address indexed claimingAddress, uint256 basisPointsBoost, uint256 periodBoost, uint256 rewardsClaimed);
@@ -89,9 +89,9 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
 	  isTransferable = _isTransferable;
   }	
   
-  function setBoostMinterAddress(address _newboostMinter) external onlyOwner {
-	  boostMinter = _newboostMinter;
-	  emit BoostMinterSet(_newboostMinter);
+  function setBoostMinterAddress(address _addressToSet, bool _canBoost) external onlyOwner {
+	  boostMinter[_addressToSet] = _canBoost;
+	  emit BoostMinterSet(_addressToSet, _canBoost);
   }
   
   function setBurnApproverAddress(address _newBurnApprover) external onlyOwner {
@@ -226,18 +226,20 @@ function _claimRewards(address _claimingAddress, uint256 _tokenRewardPerVPBPerDe
 
  // Claim Points using boostContract- only boostMinterAddress can boost mint
   function claimRewardsWithBoost(address claimingAddress, uint256 basisPointsIncrease, uint256 _additionalPointsPerday) external {
-	require(msg.sender == boostMinter, 'Boosted rewards must be called through the boost contract');
+	  bool senderIsApproved = boostMinter[msg.sender];
+	require(senderIsApproved, 'Boosted rewards must be called through the boost contract');
 	uint256 totalPointsPerDay = _additionalPointsPerday + tokenRewardPerVPBPerDenominator;
 	uint256 availableRewards = calculateClaimableRewards(claimingAddress, totalPointsPerDay);
 	_claimRewards(claimingAddress, totalPointsPerDay);
 	uint256 bonusAmount = (availableRewards * basisPointsIncrease)/10000;
     _mint(claimingAddress, bonusAmount);
-	emit NFTPsClaimedWithBoost(claimingAddress, basisPointsIncrease, _additionalPointsPerday, bonusAmount + availableRewards);
+	emit NFTPsClaimedWithBoost(claimingAddress, basisPointsIncrease, _additionalPointsPerday, bonusAmount);
   }
 
  // Boost Minter Can Directly Assign Points - only boostMinterAddress can boost mint
   function boostMintDirectly(address _receivingAddress, uint256 _amountToMint) external {
-	require(msg.sender == boostMinter, 'Direct Mint must be called through the boost contract');
+	  bool senderIsApproved = boostMinter[msg.sender];
+	require(senderIsApproved, 'Direct Mint must be called through the boost contract');
     _mint(_receivingAddress, _amountToMint);
 	emit DirectBoostMint(_receivingAddress, _amountToMint);
   }
