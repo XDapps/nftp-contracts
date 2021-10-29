@@ -9,8 +9,8 @@ export const NFTP_ABI = [
 async function main(): Promise<void> {
   const [deployer] = await ethers.getSigners();
 
-  const nftpAddress = '0x455eF3F5fcB557575F12449b3fc1C1f4dc9e4f3e';
-  const boosterAddress = '0xA175cb791a980C916852B90E65A48862abb40B99';
+  const nftpAddress = '0x3B46090e608cBC963356f30857F4DAcC09f5DDC4';
+  const boosterAddress = '0xb58eE284cE458765C75D98aD3bea5DE665f0EC20';
 
   const nftpContract = new ethers.Contract(nftpAddress, NFTP_ABI, deployer);
   const result1 = await nftpContract.setBoostMinterAddress(boosterAddress, true);

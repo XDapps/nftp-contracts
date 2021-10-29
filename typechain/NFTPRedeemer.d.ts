@@ -191,7 +191,7 @@ interface NFTPRedeemerInterface extends ethers.utils.Interface {
     "ContractPaused(bool)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "TokenAdded(address,uint256,uint256,uint256,uint256)": EventFragment;
-    "TokenRedeemed(address,uint256,uint256,uint256,uint256)": EventFragment;
+    "TokenRedeemed(address,address,uint256,uint256,uint256,uint256)": EventFragment;
     "TokenUpdated(uint256,uint256,uint256,uint256)": EventFragment;
   };
 
@@ -614,14 +614,16 @@ export class NFTPRedeemer extends BaseContract {
     >;
 
     TokenRedeemed(
+      redeemer?: string | null,
       contractAddress?: string | null,
-      tokenId?: BigNumberish | null,
+      tokenId?: null,
       itemId?: BigNumberish | null,
       redeemedQty?: null,
       redeemedPrice?: null
     ): TypedEventFilter<
-      [string, BigNumber, BigNumber, BigNumber, BigNumber],
+      [string, string, BigNumber, BigNumber, BigNumber, BigNumber],
       {
+        redeemer: string;
         contractAddress: string;
         tokenId: BigNumber;
         itemId: BigNumber;

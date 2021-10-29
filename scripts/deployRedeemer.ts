@@ -4,9 +4,9 @@ import { Contract, ContractFactory } from 'ethers';
 async function main(): Promise<void> {
   // const SGBMarketplaceFactory: ContractFactory = await ethers.getContractFactory('SGBMarketplace');
   const NFTPRedeemerContractFactory: ContractFactory = await ethers.getContractFactory('NFTPRedeemer');
-  const nftpAddress = '0x455eF3F5fcB557575F12449b3fc1C1f4dc9e4f3e';
+  const nftpAddress = '0x3B46090e608cBC963356f30857F4DAcC09f5DDC4';
 
-  const deployedAddress = "0x802ff1CAb64CD2e863b48DD453450A86d09D89a7"
+  const deployedAddress = "0xc882b55846108124717957cDA77923034E0A15eb"
   //Deploy Token & Marketplace Contract
   const redeemerContract = await upgrades.deployProxy(NFTPRedeemerContractFactory, ["NFTP Redeemer", "NFTPR", nftpAddress], { initializer: 'initializeContract' });
   console.log('Redeemer deployed to: ', redeemerContract.address);

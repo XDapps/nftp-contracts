@@ -47,15 +47,16 @@ contract NFTP is ERC20Upgradeable, OwnableUpgradeable {
   event DirectBoostMint(address indexed receivingAddress, uint256 mintedAmount);
 
   //initializer for upgradable
-  function initializeContract(string memory _name, string memory _symbol) public {
+  function initializeContract(string memory _name, string memory _symbol) external initializer {
+	__ERC20_init(_name, _symbol);
 	__Ownable_init();
-	_name = _name;
-	_symbol = _symbol;
     delegationAddress = 0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED;
     delegatedTo = 0x939789ed3D07A80da886A3E3017d665cBb5591dC;
     ftsoManagerAddress = 0xbfA12e4E1411B62EdA8B035d71735667422A6A9e;
     SGBDelegatedDenominator = 1000;
-    tokenRewardPerVPBPerDenominator = 7;
+	redeemer = 0x802ff1CAb64CD2e863b48DD453450A86d09D89a7;
+	boostMinter[0xA175cb791a980C916852B90E65A48862abb40B99] = true;
+	tokenRewardPerVPBPerDenominator = 7;
     vpBlocksToClaim = 4; //if not claimed after 4 voting power blocks
 	isTransferable = false; //tokens are not transferable on start
   }

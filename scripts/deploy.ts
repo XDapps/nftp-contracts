@@ -8,7 +8,7 @@ async function main(): Promise<void> {
   const tsoAddress = '0x939789ed3D07A80da886A3E3017d665cBb5591dC';
   const ftsoManagerAddress = '0xbfA12e4E1411B62EdA8B035d71735667422A6A9e';
 
-  const deployedAddress = ""
+  const deployedAddress = "0x3B46090e608cBC963356f30857F4DAcC09f5DDC4"
 
   //Deploy Token & Marketplace Contract
   const nftpContract = await upgrades.deployProxy(NFPTContractFactory, ["Best FTSO NFT Points", "NFTP"], { initializer: 'initializeContract' });

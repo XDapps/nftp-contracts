@@ -2,7 +2,6 @@
 
 pragma solidity ^0.8.6;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 
@@ -29,7 +28,7 @@ address private _nftpAddress;
   event BoostMinterSet(address newBoostMinter);
 
   //initializer for upgradable
-  function initializeContract(address _nftpAddressInit) public {
+  function initializeContract(address _nftpAddressInit) external initializer {
 	__Ownable_init();
 	_nftpAddress = _nftpAddressInit;
   }

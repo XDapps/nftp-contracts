@@ -45,10 +45,10 @@ struct RedeemableToken{
  event ContractPaused(bool isPaused);
  event TokenAdded(address indexed contractAddress, uint256 indexed tokenId, uint256 indexed itemId, uint256 remainingSupply, uint256 priceInNFTP);
  event TokenUpdated(uint256 indexed itemId, uint256 qtyAdded, uint256 qtyRemoved, uint256 priceInNFTP);
- event TokenRedeemed(address indexed contractAddress, uint256 indexed tokenId, uint256 indexed itemId, uint256 redeemedQty, uint256 redeemedPrice);
+ event TokenRedeemed(address indexed redeemer, address indexed contractAddress, uint256 tokenId, uint256 indexed itemId, uint256 redeemedQty, uint256 redeemedPrice);
 
 //   //initializer for upgradable
- function initializeContract(string memory _nameInitialize, string memory _symbolInitialize, address _nftpAddress) public {
+ function initializeContract(string memory _nameInitialize, string memory _symbolInitialize, address _nftpAddress)  external initializer  {
 	__Ownable_init();
  	_name = _nameInitialize;
  	_symbol = _symbolInitialize;
@@ -138,7 +138,7 @@ function setPausedStatus(bool _isPaused) onlyOwner external {
 	 }
 
 	itemIds[_itemToClaim].remainingSupply -=_qtyToClaim;
- 	emit TokenRedeemed(contractAddress, tokenId, _itemToClaim, _qtyToClaim, priceEach);
+ 	emit TokenRedeemed(msg.sender, contractAddress, tokenId, _itemToClaim, _qtyToClaim, priceEach);
  }
 
  
