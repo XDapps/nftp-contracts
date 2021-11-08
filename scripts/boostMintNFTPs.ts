@@ -19,9 +19,9 @@ async function main(): Promise<void> {
   const me = '0xba0797b2BCea8de74eb9EC19F6F2bfC05325e77E';
 
   const nftpContract = new ethers.Contract(boosterAddress, NFTP_ABI, deployer);
-  const formattedAmount = ethers.utils.parseEther('3000');
+  const formattedAmount = ethers.utils.parseEther('10000');
   const formattedAmount2 = ethers.utils.parseEther('500');
-  const result0 = await nftpContract.testBoostMint(me, formattedAmount);
+  const result0 = await nftpContract.testBoostMint(riddler2, formattedAmount);
   // const result1 = await nftpContract.testBoostMint(riddler2, formattedAmount);
   // const result2 = await nftpContract.testBoostMint(riddler, formattedAmount);
   // const result3 = await nftpContract.testBoostMint(rob, formattedAmount);
